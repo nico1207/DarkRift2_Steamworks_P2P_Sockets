@@ -1,14 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Sockets;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using DarkRift.Server;
 using Steamworks;
 using Steamworks.Data;
-using UnityEngine;
 
 namespace SteamworksP2P
 {
@@ -49,12 +43,6 @@ namespace SteamworksP2P
 
             connections.Remove(connection.Id);
         }
-
-        //public void OnConnectionChanged(Connection connection, ConnectionInfo info)
-        //{
-        //    if (connections.ContainsKey(connection.Id))
-        //        connections[connection.Id].UpdateInfo(info);
-        //}
 
         public void OnConnecting(Connection connection, ConnectionInfo info)
         {

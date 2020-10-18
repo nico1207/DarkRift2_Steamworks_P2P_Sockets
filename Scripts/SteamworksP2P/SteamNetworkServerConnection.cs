@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using DarkRift;
 using DarkRift.Server;
 using Steamworks;
 using Steamworks.Data;
-using UnityEngine;
 using ConnectionState = DarkRift.ConnectionState;
 
 namespace SteamworksP2P
@@ -61,11 +57,6 @@ namespace SteamworksP2P
             Marshal.Copy(data, buffer.Buffer, 0, size);
             buffer.Count = size;
             HandleMessageReceived(buffer, SendMode.Reliable);
-        }
-
-        public void UpdateInfo(ConnectionInfo info)
-        {
-            connectionInfo = info;
         }
 
         public void Disconnect(ConnectionInfo info)

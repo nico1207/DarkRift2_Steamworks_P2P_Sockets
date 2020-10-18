@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using DarkRift;
 using DarkRift.Client;
 using Steamworks;
 using Steamworks.Data;
-using UnityEngine;
 using ConnectionState = DarkRift.ConnectionState;
 
 namespace SteamworksP2P
