@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Runtime.InteropServices;
+using System.Threading;
 using DarkRift;
 using DarkRift.Client;
 using Steamworks;
@@ -14,6 +15,7 @@ namespace SteamworksP2P
     {
         private SteamId serverId;
         private ConnectionManager connectionManager;
+        private bool connected;
 
         public SteamNetworkClientConnection(SteamId serverId)
         {
@@ -24,7 +26,17 @@ namespace SteamworksP2P
         {
             connectionManager = SteamNetworkingSockets.ConnectRelay<ConnectionManager>(serverId);
             connectionManager.Interface = this;
-            ClientManager.Instance.SetConnectionManager(connectionManager);
+            connected = true;
+
+            Thread pollingThread = new Thread(() =>
+            {
+                while (connected && connectionManager != null)
+                {
+                    connectionManager.Receive();
+                    Thread.Sleep(10);
+                }
+            });
+            pollingThread.Start();
         }
 
         public override unsafe bool SendMessageReliable(MessageBuffer message)
@@ -57,6 +69,7 @@ namespace SteamworksP2P
 
         public override bool Disconnect()
         {
+            connected = false;
             return connectionManager.Connection.Close();
         }
 
@@ -98,6 +111,7 @@ namespace SteamworksP2P
 
         public void OnDisconnected(ConnectionInfo info)
         {
+            connected = false;
             HandleDisconnection();
         }
 

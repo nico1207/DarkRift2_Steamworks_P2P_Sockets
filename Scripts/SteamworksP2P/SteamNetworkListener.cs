@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using DarkRift.Server;
 using Steamworks;
 using Steamworks.Data;
@@ -25,7 +26,15 @@ namespace SteamworksP2P
                 socketManager = SteamNetworkingSockets.CreateRelaySocket<SocketManager>();
                 socketManager.Interface = this;
 
-                ServerManager.Instance.SetSocketManager(socketManager);
+                Thread pollingThread = new Thread(() =>
+                {
+                    while (socketManager != null)
+                    {
+                        socketManager.Receive();
+                        Thread.Sleep(10);
+                    }
+                });
+                pollingThread.Start();
             }
         }
 
